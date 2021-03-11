@@ -1,5 +1,6 @@
 package com.otp.service;
 
+import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
@@ -20,6 +21,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 	@Autowired
 	OtpRepoImp or;
+	
 
 	@Override
 	public boolean creaUtente(Utente u) throws Exception {
@@ -32,14 +34,18 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		String code = OTP.create(secret, hexTime, 6, Type.TOTP);
 
 		String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
+		
 
 		u.setSecret(secret);
 		u.setQrCode(url);
 
 		QRCodeWriter writer = new QRCodeWriter();
 		BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 350, 350);
+		
 		Path path = FileSystems.getDefault().getPath(qrcode);
 		MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+		
+		
 
 		return or.creaUtente(u);
 	}
@@ -52,9 +58,21 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 		String hexTime = OTP.timeInHex(System.currentTimeMillis());
 		String code = OTP.create(u.getSecret(), hexTime, 6, Type.TOTP);
+		u.setHex_id(code);
 		Utente utente = or.login(u);
+		if(utente!=null)
+		{
+			accesso=true;
+		}
 
 		return accesso;
+	}
+
+
+	//******************** OKOKOK **************
+	@Override
+	public boolean controlloUtenteEsistente(String username) {
+		return or.controlloUtenteEsistente(username);
 	}
 
 

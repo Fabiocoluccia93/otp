@@ -1,6 +1,7 @@
 package com.otp.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
@@ -38,6 +39,29 @@ public class OtpRepoImp implements OtpRepository {
 		q.setParameter("otp", u.getHex_id());
 		Utente utente = (Utente) q.getSingleResult();
 		return utente;
+	}
+
+
+	
+	
+	//******************** OKOKOK **************
+	@Override
+	public boolean controlloUtenteEsistente(String username)   {
+		boolean esistente = false;
+		
+		Query q=em.createQuery("select u from Utente u where u.mail=:username");
+		q.setParameter("username", username);
+		try {
+			if(q.getSingleResult()!=null)
+			{
+				esistente = true;
+			}
+			
+		} catch (NoResultException e) {
+		}
+		
+		
+		return esistente;
 	}
 
 }

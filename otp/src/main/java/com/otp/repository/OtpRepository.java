@@ -7,4 +7,6 @@ public interface OtpRepository {
 	public boolean creaUtente(Utente u);
 	
 	public Utente login(Utente u);
+	
+	public boolean controlloUtenteEsistente(String username);
 }
