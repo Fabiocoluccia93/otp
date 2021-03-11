@@ -1,15 +1,9 @@
 package com.otp.service;
 
-import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 
-import javax.transaction.Transactional;
-
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.amdelamar.jotp.OTP;
@@ -29,10 +23,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	
 
 	@Override
-	public Utente creaUtente(Utente u) throws Exception {
-		String QRCODE_PATH = "C:\\Users\\ISC_025\\Desktop\\qrcode\\";
-		
-		String qrcode = QRCODE_PATH + u.getMail() + "-QRCODE.png";
+	public Utente creaUtente(Utente u) throws Exception 
+	{
 
 		String secret = OTP.randomBase32(20);
 		String hexTime = OTP.timeInHex(System.currentTimeMillis());
@@ -41,22 +33,16 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 		String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
 		
-
 		u.setSecret(secret);
 		
-
 		QRCodeWriter writer = new QRCodeWriter();
 		BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 350, 350);
 		
-		Path path = FileSystems.getDefault().getPath(qrcode);
+		ByteArrayOutputStream a = new ByteArrayOutputStream();
 		
+		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", a);
 		
-		
-		MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-		
-		File file = new File(qrcode);
-		
-		byte[] fileContent = FileUtils.readFileToByteArray(file);
+		byte[] fileContent = a.toByteArray();
 		String encodedString = Base64.getEncoder().encodeToString(fileContent);
 		u.setQrCode(encodedString);
 
@@ -70,7 +56,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		boolean accesso = false;
 		System.out.println("mail in login"+u.getMail());
 		this.aggiornaOtp(u);
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		Utente utente = or.login(u);
 		if(utente!=null)
@@ -88,8 +74,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		return or.controlloUtenteEsistente(username);
 	}
 	
-	@Transactional
-	@Modifying
+	
 	public void aggiornaOtp(Utente u) throws Exception
 	{
 		or.aggiornaOtp(u);
