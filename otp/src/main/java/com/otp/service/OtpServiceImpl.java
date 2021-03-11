@@ -36,7 +36,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		u.setSecret(secret);
 		
 		QRCodeWriter writer = new QRCodeWriter();
-		BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 350, 350);
+		BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 200, 200);
 		
 		ByteArrayOutputStream a = new ByteArrayOutputStream();
 		
@@ -78,6 +78,13 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	public void aggiornaOtp(Utente u) throws Exception
 	{
 		or.aggiornaOtp(u);
+	}
+
+
+
+	@Override
+	public Utente recuperaQr(String username) {
+		return or.recuperaQr(username);
 	}
 
 }

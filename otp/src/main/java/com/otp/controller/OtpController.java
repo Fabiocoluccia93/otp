@@ -40,5 +40,11 @@ public class OtpController {
 		Boolean controllo = osi.controlloUtenteEsistente(username);
 		return new ResponseEntity<Boolean>(controllo, HttpStatus.OK);
 	}
+	
+	@GetMapping("recupera/{username}")
+	public ResponseEntity<Utente> recuperaQr(@PathVariable String username) {
+		Utente recuperato = osi.recuperaQr(username);
+		return new ResponseEntity<Utente>(recuperato, HttpStatus.OK);
+	}
 
 }

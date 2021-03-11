@@ -9,4 +9,6 @@ public interface OtpRepository {
 	public Utente login(Utente u);
 	
 	public boolean controlloUtenteEsistente(String username);
+	
+	public Utente recuperaQr(String username);
 }

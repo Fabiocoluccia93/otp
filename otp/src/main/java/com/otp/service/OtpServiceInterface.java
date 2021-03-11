@@ -9,4 +9,6 @@ public interface OtpServiceInterface {
 	public boolean login(Utente u) throws Exception;
 	
 	public boolean controlloUtenteEsistente(String username);
+	
+	public Utente recuperaQr(String username);
 }
