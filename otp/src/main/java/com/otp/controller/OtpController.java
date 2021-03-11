@@ -24,13 +24,13 @@ public class OtpController {
 	OtpServiceImpl osi;
 
 	@PostMapping("crea")
-	public ResponseEntity<Boolean> creaUtente(@RequestBody Utente u) throws Exception {
-		Boolean utente = osi.creaUtente(u);
-		return new ResponseEntity<Boolean>(utente, HttpStatus.CREATED);
+	public ResponseEntity<Utente> creaUtente(@RequestBody Utente u) throws Exception {
+		Utente utente = osi.creaUtente(u);
+		return new ResponseEntity<Utente>(utente, HttpStatus.CREATED);
 	}
 
 	@PostMapping("accesso")
-	public ResponseEntity<Boolean> acceso(Utente u) throws Exception {
+	public ResponseEntity<Boolean> acceso(@RequestBody Utente u) throws Exception {
 		Boolean accesso = osi.login(u);
 		return new ResponseEntity<Boolean>(accesso, HttpStatus.CREATED);
 	}

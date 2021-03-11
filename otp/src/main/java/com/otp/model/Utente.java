@@ -1,12 +1,14 @@
 package com.otp.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -30,6 +32,7 @@ public class Utente implements Serializable{
 	@Column(name="hex_id")
 	private String hex_id;
 	
+	@Lob
 	@Column(name = "qrCode", nullable = false)
 	private String qrCode;
 	
