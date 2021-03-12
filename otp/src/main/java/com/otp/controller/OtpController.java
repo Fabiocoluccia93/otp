@@ -36,8 +36,8 @@ public class OtpController {
 	}
 
 	@GetMapping("esistente/{username}")
-	public ResponseEntity<Boolean> controlloEsistente(@PathVariable String username) {
-		Boolean controllo = osi.controlloUtenteEsistente(username);
+	public ResponseEntity<Boolean> controlloEsistente(@PathVariable int id) {
+		Boolean controllo = osi.controlloUtenteEsistente(id);
 		return new ResponseEntity<Boolean>(controllo, HttpStatus.OK);
 	}
 	

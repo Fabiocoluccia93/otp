@@ -52,11 +52,11 @@ public class OtpRepoImp implements OtpRepository {
 	
 	//******************** OKOKOK **************
 	@Override
-	public boolean controlloUtenteEsistente(String username)   {
+	public boolean controlloUtenteEsistente(int id)   {
 		boolean esistente = false;
 		
-		Query q=em.createQuery("select u from Utente u where u.mail=:username");
-		q.setParameter("username", username);
+		Query q=em.createQuery("select u from Utente u where u.id_utente=:id");
+		q.setParameter("username", id);
 		try {
 			if(q.getSingleResult()!=null)
 			{

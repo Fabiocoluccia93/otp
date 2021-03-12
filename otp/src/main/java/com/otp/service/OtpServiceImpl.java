@@ -70,8 +70,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 	//******************** OKOKOK **************
 	@Override
-	public boolean controlloUtenteEsistente(String username) {
-		return or.controlloUtenteEsistente(username);
+	public boolean controlloUtenteEsistente(int id) {
+		return or.controlloUtenteEsistente(id);
 	}
 	
 	

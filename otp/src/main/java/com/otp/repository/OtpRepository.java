@@ -8,7 +8,7 @@ public interface OtpRepository {
 	
 	public Utente login(Utente u);
 	
-	public boolean controlloUtenteEsistente(String username);
+	public boolean controlloUtenteEsistente(int id);
 	
 	public Utente recuperaQr(String username);
 }
