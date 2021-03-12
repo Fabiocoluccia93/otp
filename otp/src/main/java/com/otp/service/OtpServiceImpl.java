@@ -25,7 +25,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	@Override
 	public Utente creaUtente(Utente u) throws Exception 
 	{
-
+		
 		String secret = OTP.randomBase32(20);
 		String hexTime = OTP.timeInHex(System.currentTimeMillis());
 		String code = OTP.create(secret, hexTime, 6, Type.TOTP);
