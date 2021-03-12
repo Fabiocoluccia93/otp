@@ -11,4 +11,8 @@ public interface OtpServiceInterface {
 	public boolean controlloUtenteEsistente(int id);
 	
 	public Utente recuperaQr(String username);
+	
+	public boolean aggiornaUtente(int id);
+	
+	public boolean cancellaUtente(int id);
 }

@@ -56,7 +56,7 @@ public class OtpRepoImp implements OtpRepository {
 		boolean esistente = false;
 		
 		Query q=em.createQuery("select u from Utente u where u.id_utente=:id");
-		q.setParameter("username", id);
+		q.setParameter("id", id);
 		try {
 			if(q.getSingleResult()!=null)
 			{
@@ -106,5 +106,35 @@ public class OtpRepoImp implements OtpRepository {
 		}
 		return recuperato;
 		
+	}
+	
+	@Transactional
+	@Override
+	public boolean aggiornaUtente(int id)
+	{
+		boolean c=false;
+		//
+		return c;
+	}
+	
+	@Transactional
+	@Override
+	public boolean cancellaUtente(int id)
+	{
+		Utente a = null;
+		boolean c=false;
+		try 
+		{
+			a = em.find(Utente.class, id);
+		}catch(NoResultException e)
+		{
+			
+		}
+		if(a!=null)
+		{
+			em.remove(a);
+			c=true;
+		}
+		return c;
 	}
 }

@@ -86,5 +86,17 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	public Utente recuperaQr(String username) {
 		return or.recuperaQr(username);
 	}
+	
+	@Override
+	public boolean aggiornaUtente(int id)
+	{
+		return or.aggiornaUtente(id);
+	}
+	
+	@Override
+	public boolean cancellaUtente(int id)
+	{
+		return or. cancellaUtente(id);
+	}
 
 }

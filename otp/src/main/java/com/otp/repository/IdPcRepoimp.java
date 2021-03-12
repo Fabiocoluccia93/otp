@@ -47,6 +47,7 @@ public class IdPcRepoimp implements IdPcRepository {
 		if(esistente== null)
 		{
 			em.persist(idpc);
+			em.flush();
 			creato= true;
 		}
 		
