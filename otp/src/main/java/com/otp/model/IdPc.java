@@ -9,6 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "idpc")
 public class IdPc implements Serializable {
@@ -25,5 +32,6 @@ public class IdPc implements Serializable {
 	private String mail;
 	
 	@Column(name = "password" , nullable = false)
+
 	private String password;
 }
