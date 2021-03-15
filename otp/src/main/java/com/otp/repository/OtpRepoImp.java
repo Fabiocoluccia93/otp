@@ -30,8 +30,21 @@ public class OtpRepoImp implements OtpRepository {
 	
 	
 	@Override
-	public Utente login(Utente u)
+	public Utente login(Utente u)  throws Exception
 	{
+		try {
+			System.out.println("la mail è"+u.getMail());
+			Query q=em.createQuery("select u from Utente u where u.mail=:username");
+			q.setParameter("username", u.getMail());
+			Utente a = (Utente) q.getSingleResult();
+			String hexTime = OTP.timeInHex(System.currentTimeMillis());
+			String code = OTP.create(a.getSecret(), hexTime, 6, Type.TOTP);
+			a.setHex_id(code);
+			em.merge(a);
+		} catch (NoResultException e) {
+			// TODO: handle exception
+		}
+		
 		Utente utente =new Utente();
 		try 
 		{
@@ -70,23 +83,7 @@ public class OtpRepoImp implements OtpRepository {
 		return esistente;
 	}
 	
-	@Transactional
-	public void aggiornaOtp(Utente u) throws Exception
-	{
-		try {
-			System.out.println("la mail è"+u.getMail());
-			Query q=em.createQuery("select u from Utente u where u.mail=:username");
-			q.setParameter("username", u.getMail());
-			Utente a = (Utente) q.getSingleResult();
-			String hexTime = OTP.timeInHex(System.currentTimeMillis());
-			String code = OTP.create(a.getSecret(), hexTime, 6, Type.TOTP);
-			a.setHex_id(code);
-			em.merge(a);
-		} catch (NoResultException e) {
-			// TODO: handle exception
-		}
-		
-	}
+
 
 
 
