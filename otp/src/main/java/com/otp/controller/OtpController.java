@@ -68,5 +68,18 @@ public class OtpController {
 	}
 	
 	
+	
+	
+	
+	
+	@PostMapping("creaGoogleApi/{id}/{mail}")
+	public ResponseEntity creaUtenteGoogleApi(@PathVariable int id,@PathVariable String mail ) throws Exception {
+		Utente u = new Utente();
+		u.setId_utente(id);
+		u.setMail(mail);
+		Utente utente = osi.creaUtente(u);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
 
 }

@@ -11,6 +11,10 @@ public interface OtpRepository {
 	public boolean controlloUtenteEsistente(int id);
 	
 	public Utente recuperaQr(String username);
+	
 	public boolean cancellaUtente(int id);
+	
 	public boolean aggiornaUtente(int id);
+	
+	public Utente creaUtenteGoogleApi(Utente u);
 }

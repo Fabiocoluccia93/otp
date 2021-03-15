@@ -15,4 +15,6 @@ public interface OtpServiceInterface {
 	public boolean aggiornaUtente(int id);
 	
 	public boolean cancellaUtente(int id);
+	
+	public Utente creaUtenteGoogleApi(Utente u);
 }
