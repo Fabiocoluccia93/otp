@@ -54,8 +54,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	@Override
 	public boolean login(Utente u) throws Exception {
 		boolean accesso = false;
-		this.aggiornaOtp(u);
-		
+
 		Utente utente = or.login(u);
 		if(utente!=null)
 		{
@@ -71,13 +70,6 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	public boolean controlloUtenteEsistente(int id) {
 		return or.controlloUtenteEsistente(id);
 	}
-	
-	
-	public void aggiornaOtp(Utente u) throws Exception
-	{
-		or.aggiornaOtp(u);
-	}
-
 
 
 	@Override
