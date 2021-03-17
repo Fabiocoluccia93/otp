@@ -1,5 +1,7 @@
 package com.otp.controller;
 
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class OtpController {
 	@Autowired
 	OtpServiceImpl osi;
 
+	
+	//CREA UTENTE ------OK
 	@PostMapping("/user/{id}/{mail}")
 	public ResponseEntity creaUtente(@PathVariable int id,@PathVariable String mail ) throws Exception {
 		Utente u = new Utente();
@@ -42,14 +46,14 @@ public class OtpController {
 
 	
 	
-
+	// CONTROLLO ESISTENTE ---------OK
 	@GetMapping("/user/{id}")
 	public ResponseEntity<Boolean> controlloEsistente(@PathVariable int id) {
 		Boolean controllo = osi.controlloUtenteEsistente(id);
 		return new ResponseEntity<Boolean>(controllo, HttpStatus.OK);
 	}
 	
-	
+	//MODIFICA UTENTE --------OK
 	@PutMapping("/user/{id}/{mail}")
 	public ResponseEntity aggiornaUtente(@PathVariable int id, @PathVariable String mail)
 	{
@@ -66,6 +70,7 @@ public class OtpController {
 		
 	}
 	
+	//ELIMINA UTENTE --------------OK
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity cancellaUtente(@PathVariable int id)
 	{
@@ -73,14 +78,15 @@ public class OtpController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
+	//RECUPERA CODICE QR ------------OK
 	@GetMapping("/user/{username}/qrcode")
-	public ResponseEntity<Utente> recuperaQr(@PathVariable String username) {
-		Utente recuperato = osi.recuperaQr(username);
-		return new ResponseEntity<Utente>(recuperato, HttpStatus.OK);
+	public ResponseEntity<String> recuperaQr(@PathVariable String username) {
+		Utente recuperato = osi.recuperaQr(username);					
+		return new ResponseEntity<String>(recuperato.getQrCode(), HttpStatus.OK);
 	}
 	
 	
+	//LOGIN ----------OK
 	@GetMapping("/user/{id}/otp/{otp}")
 	public ResponseEntity<Boolean> acceso(@PathVariable int id, @PathVariable String otp) throws Exception {
 		Boolean accesso = osi.login(id,otp);
