@@ -74,7 +74,6 @@ public class OtpRepoImp implements OtpRepository {
 	public void aggiornaOtp(Utente u) throws Exception
 	{
 		try {
-			System.out.println("la mail è"+u.getMail());
 			Query q=em.createQuery("select u from Utente u where u.mail=:username");
 			q.setParameter("username", u.getMail());
 			Utente a = (Utente) q.getSingleResult();
@@ -143,5 +142,13 @@ public class OtpRepoImp implements OtpRepository {
 			c=true;
 		}
 		return c;
+	}
+
+
+
+	@Override
+	public Utente creaUtenteGoogleApi(Utente u) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

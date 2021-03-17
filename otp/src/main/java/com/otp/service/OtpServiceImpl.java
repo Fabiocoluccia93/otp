@@ -54,9 +54,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	@Override
 	public boolean login(Utente u) throws Exception {
 		boolean accesso = false;
-		System.out.println("mail in login"+u.getMail());
 		this.aggiornaOtp(u);
-		//Thread.sleep(1000);
 		
 		Utente utente = or.login(u);
 		if(utente!=null)
@@ -97,6 +95,14 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	public boolean cancellaUtente(int id)
 	{
 		return or. cancellaUtente(id);
+	}
+
+
+
+	@Override
+	public Utente creaUtenteGoogleApi(Utente u) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
