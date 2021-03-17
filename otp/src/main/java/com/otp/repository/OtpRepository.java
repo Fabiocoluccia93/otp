@@ -12,5 +12,5 @@ public interface OtpRepository {
 	
 	public Utente recuperaQr(String username);
 	public boolean cancellaUtente(int id);
-	public boolean aggiornaUtente(int id);
+	public boolean aggiornaUtente(int id,String mail);
 }

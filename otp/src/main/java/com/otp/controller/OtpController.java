@@ -34,10 +34,10 @@ public class OtpController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	//mockkato
-	@PostMapping("accesso")
-	public ResponseEntity<Boolean> acceso(@RequestBody Utente u) throws Exception {
-		Boolean accesso = osi.login(u);
+	//mockato //
+	@PostMapping("accesso/{id}/{otp}")
+	public ResponseEntity<Boolean> acceso(@PathVariable int id, @PathVariable String otp) throws Exception {
+		Boolean accesso = osi.login(id,otp);
 		return new ResponseEntity<Boolean>(accesso, HttpStatus.CREATED);
 	}
 
@@ -54,10 +54,19 @@ public class OtpController {
 	}
 	
 	@PutMapping("aggiorna/{id}/{mail}")
-	public ResponseEntity aggiornaUtente(@PathVariable int id)
+	public ResponseEntity aggiornaUtente(@PathVariable int id, @PathVariable String mail)
 	{
-		osi.aggiornaUtente(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		boolean c;
+		c=osi.aggiornaUtente(id,mail);
+		if(c==true)
+		{
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
 	}
 	
 	@DeleteMapping("cancella/{id}")

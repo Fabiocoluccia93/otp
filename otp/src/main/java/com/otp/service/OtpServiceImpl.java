@@ -88,9 +88,9 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	}
 	
 	@Override
-	public boolean aggiornaUtente(int id)
+	public boolean aggiornaUtente(int id,String mail)
 	{
-		return or.aggiornaUtente(id);
+		return or.aggiornaUtente(id,mail);
 	}
 	
 	@Override

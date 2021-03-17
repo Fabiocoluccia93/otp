@@ -110,10 +110,17 @@ public class OtpRepoImp implements OtpRepository {
 	
 	@Transactional
 	@Override
-	public boolean aggiornaUtente(int id)
+	public boolean aggiornaUtente(int id,String mail)
 	{
 		boolean c=false;
-		//
+		try {
+			Utente a = em.find(Utente.class, id);
+			a.setMail(mail);
+			em.merge(a);
+			c=true;
+		} catch (NoResultException e) {
+			// TODO: handle exception
+		}
 		return c;
 	}
 	
