@@ -6,7 +6,7 @@ public interface OtpServiceInterface {
 
 	public Utente creaUtente(Utente u) throws Exception;
 
-	public boolean login(Utente u) throws Exception;
+	public boolean login(int id ,String otp) throws Exception;
 	
 	public boolean controlloUtenteEsistente(int id);
 	

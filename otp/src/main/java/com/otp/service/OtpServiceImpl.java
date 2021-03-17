@@ -52,10 +52,10 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	
 
 	@Override
-	public boolean login(Utente u) throws Exception {
+	public boolean login(int id ,String otp) throws Exception {
 		boolean accesso = false;
 
-		Utente utente = or.login(u);
+		Utente utente = or.login(id,otp);
 		if(utente!=null)
 		{
 			accesso=true;

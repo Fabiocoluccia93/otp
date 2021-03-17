@@ -30,22 +30,20 @@ public class OtpRepoImp implements OtpRepository {
 	
 	@Transactional
 	@Override
-	public Utente login(Utente u)  throws Exception
+	public Utente login(int id, String otp)  throws Exception
 	{
 		Utente utente =new Utente();
 		try 
 		{
-			Query q2=em.createQuery("select u from Utente u where u.mail=:username");
-			q2.setParameter("username", u.getMail());
-			Utente a = (Utente) q2.getSingleResult();
+			Utente a =em.find(Utente.class, id);
 			String hexTime = OTP.timeInHex(System.currentTimeMillis());
 			String code = OTP.create(a.getSecret(), hexTime, 6, Type.TOTP);
 			a.setHex_id(code);
 			em.merge(a);
 			
-			Query q = em.createQuery("SELECT u FROM Utente u WHERE u.mail =: mail and u.hex_id=:otp");
-			q.setParameter("mail", u.getMail());
-			q.setParameter("otp", u.getHex_id());
+			Query q = em.createQuery("SELECT u FROM Utente u WHERE u.id_utente =:id and u.hex_id=:otp");
+			q.setParameter("id", id);
+			q.setParameter("otp", otp);
 			utente = (Utente) q.getSingleResult();
 			
 		} catch (NoResultException e) {
@@ -135,11 +133,4 @@ public class OtpRepoImp implements OtpRepository {
 		return c;
 	}
 
-
-
-	@Override
-	public Utente creaUtenteGoogleApi(Utente u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
