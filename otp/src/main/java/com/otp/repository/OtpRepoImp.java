@@ -80,7 +80,6 @@ public class OtpRepoImp implements OtpRepository {
 
 
 
-
 	@Override
 	public Utente recuperaQr(String username) {
 		
@@ -101,10 +100,17 @@ public class OtpRepoImp implements OtpRepository {
 	
 	@Transactional
 	@Override
-	public boolean aggiornaUtente(int id)
+	public boolean aggiornaUtente(int id,String mail)
 	{
 		boolean c=false;
-		//
+		try {
+			Utente a = em.find(Utente.class, id);
+			a.setMail(mail);
+			em.merge(a);
+			c=true;
+		} catch (NoResultException e) {
+			// TODO: handle exception
+		}
 		return c;
 	}
 	
@@ -127,5 +133,13 @@ public class OtpRepoImp implements OtpRepository {
 			c=true;
 		}
 		return c;
+	}
+
+
+
+	@Override
+	public Utente creaUtenteGoogleApi(Utente u) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
