@@ -79,21 +79,17 @@ public class OtpRepoImp implements OtpRepository {
 
 
 	@Override
-	public Utente recuperaQr(String username) {
+	public Utente recuperaQr(int id) {
+	
+		Utente recuperato = null;
 		
-		Utente recuperato =null;
-		Query q=em.createQuery("select u from Utente u where u.mail=:username");
-		q.setParameter("username", username);
 		try {
-			if(q.getSingleResult()!=null)
-			{
-				recuperato = (Utente) q.getSingleResult();
-			}
+			
+			recuperato = em.find(Utente.class, id);
 			
 		} catch (NoResultException e) {
 		}
-		return recuperato;
-		
+		return recuperato;	
 	}
 	
 	@Transactional

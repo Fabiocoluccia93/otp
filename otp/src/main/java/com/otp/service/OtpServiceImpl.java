@@ -73,8 +73,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 
 	@Override
-	public Utente recuperaQr(String username) {
-		return or.recuperaQr(username);
+	public Utente recuperaQr(int id) {
+		return or.recuperaQr(id);
 	}
 	
 	@Override

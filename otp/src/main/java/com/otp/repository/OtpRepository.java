@@ -10,7 +10,7 @@ public interface OtpRepository {
 	
 	public boolean controlloUtenteEsistente(int id);
 	
-	public Utente recuperaQr(String username);
+	public Utente recuperaQr(int id);
 	
 	public boolean aggiornaUtente(int id,String mail);
 	public boolean cancellaUtente(int id);

@@ -2,6 +2,8 @@ package com.otp.controller;
 
 import java.util.Base64;
 
+import javax.print.DocFlavor.STRING;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,36 +28,53 @@ public class OtpController {
 	OtpServiceImpl osi;
 
 	
-	//CREA UTENTE ------OK
+	//INSERIMENTO UTENTE ------OK
 	@PostMapping("/user/{id}/{mail}")
-	public ResponseEntity creaUtente(@PathVariable int id,@PathVariable String mail ) throws Exception {
+	public ResponseEntity<String> inserimentoUtente(@PathVariable int id,@PathVariable String mail ) throws Exception {
 		Utente u = new Utente();
+		String messaggio = null;
+		
 		u.setId_utente(id);
 		u.setMail(mail);
 		Utente utente = osi.creaUtente(u);
 		if(utente!=null)
 		{
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			messaggio = "esito : INSERITO";
+			return new ResponseEntity<String>(messaggio,HttpStatus.CREATED);
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			messaggio = "esito : NON INSERITO";
+			return new ResponseEntity<String>(messaggio,HttpStatus.CONFLICT);
 		}
 		
 	}
 
 	
 	
-	// CONTROLLO ESISTENTE ---------OK
+	// VERIFICA UTENTE ---------OK
 	@GetMapping("/user/{id}")
-	public ResponseEntity<Boolean> controlloEsistente(@PathVariable int id) {
+	public ResponseEntity<String> verificaUtente(@PathVariable int id) {
 		Boolean controllo = osi.controlloUtenteEsistente(id);
-		return new ResponseEntity<Boolean>(controllo, HttpStatus.OK);
+		String messaggio = null;
+		
+		if(controllo == false)
+		{	
+			messaggio = "OK";
+			return new ResponseEntity<String>(messaggio, HttpStatus.OK);
+		}
+		else
+		{
+			messaggio = "KO";
+			return new ResponseEntity<String>(messaggio, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
-	//MODIFICA UTENTE --------OK
+	
+	
+	//AGGIORNA UTENTE --------OK
 	@PutMapping("/user/{id}/{mail}")
-	public ResponseEntity aggiornaUtente(@PathVariable int id, @PathVariable String mail)
+	public ResponseEntity aggiornamentoUtente(@PathVariable int id, @PathVariable String mail)
 	{
 		boolean c;
 		c=osi.aggiornaUtente(id,mail);
@@ -72,25 +91,54 @@ public class OtpController {
 	
 	//ELIMINA UTENTE --------------OK
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity cancellaUtente(@PathVariable int id)
-	{
-		osi.cancellaUtente(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity cancellazioneUtente(@PathVariable int id)
+	{		
+		boolean eliminato = osi.cancellaUtente(id);
+		if(eliminato == true)
+		{
+			return new ResponseEntity<>(HttpStatus.OK);			
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+		}
 	}
 	
-	//RECUPERA CODICE QR ------------OK
-	@GetMapping("/user/{username}/qrcode")
-	public ResponseEntity<String> recuperaQr(@PathVariable String username) {
-		Utente recuperato = osi.recuperaQr(username);					
-		return new ResponseEntity<String>(recuperato.getQrCode(), HttpStatus.OK);
+	
+	
+	//RICHIESTA CODICE QR ------------OK
+	@GetMapping("/user/{id}/qrcode")
+	public ResponseEntity<String> richiestaQRCode(@PathVariable int id) {
+		Utente recuperato = osi.recuperaQr(id);
+		String qr="QRCODE : ";
+		
+		if(recuperato != null)
+		{			
+			return new ResponseEntity<String>(qr+recuperato.getQrCode(), HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	
-	//LOGIN ----------OK
+	//VERIFICA OTP PER L'ACCESSO ----------OK
 	@GetMapping("/user/{id}/otp/{otp}")
-	public ResponseEntity<Boolean> acceso(@PathVariable int id, @PathVariable String otp) throws Exception {
+	public ResponseEntity<String> verificaOTP(@PathVariable int id, @PathVariable String otp) throws Exception {
 		Boolean accesso = osi.login(id,otp);
-		return new ResponseEntity<Boolean>(accesso, HttpStatus.CREATED);
+		String messaggio = null;
+		
+		if(accesso == true)
+		{
+			messaggio="esito : OK";		
+			return new ResponseEntity<String>(messaggio, HttpStatus.OK);
+		}
+		else
+		{
+			messaggio="esito : KO";
+			return new ResponseEntity<String>(messaggio, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	
