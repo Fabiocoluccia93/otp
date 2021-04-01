@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>otp</name>
 	<description>otp</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>15</java.version>
 	</properties>
@@ -75,11 +76,13 @@
 	</dependencies>
 
 	<build>
+	 	<finalName>totp-application</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+				<executable>true</executable>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

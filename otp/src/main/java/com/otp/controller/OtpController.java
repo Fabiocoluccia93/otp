@@ -25,6 +25,12 @@ public class OtpController {
 	OtpServiceImpl osi;
 
 	
+	@GetMapping("/stato")
+	public String getStato()
+	{
+		return "avviato";
+	}
+	
 	//INSERIMENTO UTENTE ------OK
 	@PostMapping("/user/{id}/{mail}")
 	public ResponseEntity<String> inserimentoUtente(@PathVariable int id,@PathVariable String mail ) throws Exception {
