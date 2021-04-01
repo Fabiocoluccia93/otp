@@ -33,6 +33,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 		String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
 		
+		u.setUrlqr(url);
+		
 		u.setSecret(secret);
 		
 		QRCodeWriter writer = new QRCodeWriter();
@@ -41,6 +43,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		ByteArrayOutputStream a = new ByteArrayOutputStream();
 		
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", a);
+		
+		
 		
 		byte[] fileContent = a.toByteArray();
 		String encodedString = Base64.getEncoder().encodeToString(fileContent);
@@ -52,10 +56,10 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	
 
 	@Override
-	public boolean login(Utente u) throws Exception {
+	public boolean login(int id ,String otp) throws Exception {
 		boolean accesso = false;
 
-		Utente utente = or.login(u);
+		Utente utente = or.login(id,otp);
 		if(utente!=null)
 		{
 			accesso=true;
@@ -73,8 +77,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 
 	@Override
-	public Utente recuperaQr(String username) {
-		return or.recuperaQr(username);
+	public Utente recuperaQr(int id) {
+		return or.recuperaQr(id);
 	}
 	
 	@Override
