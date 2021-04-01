@@ -8,6 +8,8 @@
 		<version>2.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>jar</packaging>
+	
 	<groupId>com.otp</groupId>
 	<artifactId>otp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
