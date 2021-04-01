@@ -21,7 +21,7 @@ public class IdPc implements Serializable {
 	private static final long serialVersionUID = -4621417229274061473L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Integer id;
 	
