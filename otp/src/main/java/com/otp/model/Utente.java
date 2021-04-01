@@ -31,6 +31,9 @@ public class Utente implements Serializable{
 	@Column(name="hex_id")
 	private String hex_id;
 	
+	@Column(name="urlqr", nullable = false, unique = true)
+	private String urlqr;
+	
 	@Lob
 	@Column(name = "qrCode", nullable = false)
 	private String qrCode;

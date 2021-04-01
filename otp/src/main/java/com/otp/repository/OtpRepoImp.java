@@ -22,8 +22,21 @@ public class OtpRepoImp implements OtpRepository {
 	@Transactional
 	public Utente creaUtente(Utente u) {
 		
-		em.persist(u);
+		Utente creato = null;
 		
+		try {
+			creato = em.find(Utente.class, u.getId_utente());
+			if(creato == null)
+			{
+				em.persist(u);
+			}
+			else	
+			{
+				u=null;
+			}
+		} catch (NoResultException e) {
+			// TODO: handle exception
+		}
 		return u;
 	}
 
@@ -92,6 +105,8 @@ public class OtpRepoImp implements OtpRepository {
 		return recuperato;	
 	}
 	
+	
+	
 	@Transactional
 	@Override
 	public boolean aggiornaUtente(int id,String mail)
@@ -99,14 +114,19 @@ public class OtpRepoImp implements OtpRepository {
 		boolean c=false;
 		try {
 			Utente a = em.find(Utente.class, id);
-			a.setMail(mail);
-			em.merge(a);
-			c=true;
+			if(a!=null)
+			{
+				a.setMail(mail);
+				em.merge(a);
+				c=true;				
+			}
 		} catch (NoResultException e) {
 			// TODO: handle exception
 		}
 		return c;
 	}
+	
+	
 	
 	@Transactional
 	@Override

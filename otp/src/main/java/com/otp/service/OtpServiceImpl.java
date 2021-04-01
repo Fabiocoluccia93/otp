@@ -33,6 +33,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 
 		String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
 		
+		u.setUrlqr(url);
+		
 		u.setSecret(secret);
 		
 		QRCodeWriter writer = new QRCodeWriter();
@@ -41,6 +43,8 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		ByteArrayOutputStream a = new ByteArrayOutputStream();
 		
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", a);
+		
+		
 		
 		byte[] fileContent = a.toByteArray();
 		String encodedString = Base64.getEncoder().encodeToString(fileContent);

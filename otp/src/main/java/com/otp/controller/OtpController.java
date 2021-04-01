@@ -1,9 +1,5 @@
 package com.otp.controller;
 
-import java.util.Base64;
-
-import javax.print.DocFlavor.STRING;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.otp.model.QrObject;
 import com.otp.model.Utente;
 import com.otp.service.OtpServiceImpl;
 
@@ -42,10 +39,10 @@ public class OtpController {
 			messaggio = "esito : INSERITO";
 			return new ResponseEntity<String>(messaggio,HttpStatus.CREATED);
 		}
-		else
+		else 
 		{
 			messaggio = "esito : NON INSERITO";
-			return new ResponseEntity<String>(messaggio,HttpStatus.CONFLICT);
+			return new ResponseEntity<String>(messaggio,HttpStatus.NOT_FOUND);
 		}
 		
 	}
@@ -58,7 +55,7 @@ public class OtpController {
 		Boolean controllo = osi.controlloUtenteEsistente(id);
 		String messaggio = null;
 		
-		if(controllo == false)
+		if(controllo == true)
 		{	
 			messaggio = "OK";
 			return new ResponseEntity<String>(messaggio, HttpStatus.OK);
@@ -84,9 +81,8 @@ public class OtpController {
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}	
 	}
 	
 	//ELIMINA UTENTE --------------OK
@@ -100,7 +96,7 @@ public class OtpController {
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
 		}
 	}
 	
@@ -108,13 +104,16 @@ public class OtpController {
 	
 	//RICHIESTA CODICE QR ------------OK
 	@GetMapping("/user/{id}/qrcode")
-	public ResponseEntity<String> richiestaQRCode(@PathVariable int id) {
+	public ResponseEntity<QrObject> richiestaQRCode(@PathVariable int id) {
 		Utente recuperato = osi.recuperaQr(id);
-		String qr="QRCODE : ";
+		
+		QrObject codici = new QrObject();
 		
 		if(recuperato != null)
 		{			
-			return new ResponseEntity<String>(qr+recuperato.getQrCode(), HttpStatus.OK);
+			codici.setUrlqr(recuperato.getUrlqr());
+			codici.setQrCode(recuperato.getQrCode());
+			return new ResponseEntity<QrObject>(codici, HttpStatus.OK);
 		}
 		else
 		{
@@ -137,11 +136,8 @@ public class OtpController {
 		else
 		{
 			messaggio="esito : KO";
-			return new ResponseEntity<String>(messaggio, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(messaggio, HttpStatus.FORBIDDEN);
 		}
 	}
-	
-	
-	
 
 }
