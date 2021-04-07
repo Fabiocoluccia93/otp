@@ -24,6 +24,12 @@ public class OtpController {
 	@Autowired
 	OtpServiceImpl osi;
 
+	@GetMapping("/stato")
+	public String getStato()
+	{
+		return "avviato";
+	}
+	
 	
 	//INSERIMENTO UTENTE ------OK
 	@PostMapping("/user/{id}/{mail}")
@@ -42,7 +48,7 @@ public class OtpController {
 		else 
 		{
 			messaggio = "esito : NON INSERITO";
-			return new ResponseEntity<String>(messaggio,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(messaggio,HttpStatus.BAD_REQUEST);
 		}
 		
 	}
@@ -63,7 +69,7 @@ public class OtpController {
 		else
 		{
 			messaggio = "KO";
-			return new ResponseEntity<String>(messaggio, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(messaggio, HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -77,11 +83,11 @@ public class OtpController {
 		c=osi.aggiornaUtente(id,mail);
 		if(c==true)
 		{
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}	
 	}
 	
@@ -92,11 +98,11 @@ public class OtpController {
 		boolean eliminato = osi.cancellaUtente(id);
 		if(eliminato == true)
 		{
-			return new ResponseEntity<>(HttpStatus.OK);			
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);			
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);	
 		}
 	}
 	
@@ -117,7 +123,7 @@ public class OtpController {
 		}
 		else
 		{
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -136,7 +142,7 @@ public class OtpController {
 		else
 		{
 			messaggio="esito : KO";
-			return new ResponseEntity<String>(messaggio, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<String>(messaggio, HttpStatus.NOT_FOUND);
 		}
 	}
 
