@@ -6,7 +6,7 @@ public interface OtpRepository {
 
 	public Utente creaUtente(Utente u);
 	
-	public Utente login(int id, String otp) throws Exception;
+	public int login(int id, String otp) throws Exception;
 	
 	public boolean controlloUtenteEsistente(int id);
 	

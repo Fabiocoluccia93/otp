@@ -34,8 +34,9 @@ public class OtpRepoImp implements OtpRepository {
 			{
 				u=null;
 			}
-		} catch (NoResultException e) {
-			// TODO: handle exception
+		} catch (NoResultException e) 
+		{
+			u=null;
 		}
 		return u;
 	}
@@ -43,12 +44,12 @@ public class OtpRepoImp implements OtpRepository {
 	
 	@Transactional
 	@Override
-	public Utente login(int id, String otp)  throws Exception
+	public int login(int id, String otp)  throws Exception
 	{
-		Utente utente =new Utente();
+		int check = 0;
 		try 
 		{
-			Utente a =em.find(Utente.class, id);
+			Utente a = em.find(Utente.class, id);
 			String hexTime = OTP.timeInHex(System.currentTimeMillis());
 			String code = OTP.create(a.getSecret(), hexTime, 6, Type.TOTP);
 			a.setHex_id(code);
@@ -57,12 +58,19 @@ public class OtpRepoImp implements OtpRepository {
 			Query q = em.createQuery("SELECT u FROM Utente u WHERE u.id_utente =:id and u.hex_id=:otp");
 			q.setParameter("id", id);
 			q.setParameter("otp", otp);
-			utente = (Utente) q.getSingleResult();
 			
-		} catch (NoResultException e) {
-			utente=null;
+			
+			check=3;//utente esiste
+			
+		} catch (NoResultException e) 
+		{
+			check=2;//utente non esiste
 		}
-		return utente;
+		catch (NullPointerException e) 
+		{
+			check=1;// 
+		}
+		return check;
 	}
 
 
@@ -81,7 +89,9 @@ public class OtpRepoImp implements OtpRepository {
 				esistente = true;
 			}
 			
-		} catch (NoResultException e) {
+		} catch (NoResultException e)
+		{
+			 //catch blank
 		}
 		
 		
@@ -100,7 +110,9 @@ public class OtpRepoImp implements OtpRepository {
 			
 			recuperato = em.find(Utente.class, id);
 			
-		} catch (NoResultException e) {
+		} catch (NoResultException e) 
+		{
+			recuperato = null;
 		}
 		return recuperato;	
 	}
@@ -121,7 +133,7 @@ public class OtpRepoImp implements OtpRepository {
 				c=true;				
 			}
 		} catch (NoResultException e) {
-			// TODO: handle exception
+			c=false;
 		}
 		return c;
 	}
@@ -137,9 +149,10 @@ public class OtpRepoImp implements OtpRepository {
 		try 
 		{
 			a = em.find(Utente.class, id);
-		}catch(NoResultException e)
+		}
+		catch(NoResultException e)
 		{
-			
+			//this catch 
 		}
 		if(a!=null)
 		{

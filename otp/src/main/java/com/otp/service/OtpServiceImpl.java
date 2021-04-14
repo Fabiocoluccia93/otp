@@ -21,60 +21,36 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	@Autowired
 	OtpRepoImp or;
 	
-
 	@Override
-	public Utente creaUtente(Utente u) throws Exception 
-	{
-		
+	public Utente creaUtente(Utente u) throws Exception {
 		String secret = OTP.randomBase32(20);
 		String hexTime = OTP.timeInHex(System.currentTimeMillis());
 		String code = OTP.create(secret, hexTime, 6, Type.TOTP);
 		u.setHex_id(code);
-
 		String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
-		
 		u.setUrlqr(url);
-		
 		u.setSecret(secret);
-		
 		QRCodeWriter writer = new QRCodeWriter();
 		BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 200, 200);
-		
 		ByteArrayOutputStream a = new ByteArrayOutputStream();
-		
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", a);
-		
-		
-		
 		byte[] fileContent = a.toByteArray();
 		String encodedString = Base64.getEncoder().encodeToString(fileContent);
 		u.setQrCode(encodedString);
-
 		return or.creaUtente(u);
 	}
 	
 	
 
 	@Override
-	public boolean login(int id ,String otp) throws Exception {
-		boolean accesso = false;
-
-		Utente utente = or.login(id,otp);
-		if(utente!=null)
-		{
-			accesso=true;
-		}
-
-		return accesso;
+	public int login(int id ,String otp) throws Exception {
+		return or.login(id,otp);
 	}
 
-
-	//******************** OKOKOK **************
 	@Override
 	public boolean controlloUtenteEsistente(int id) {
 		return or.controlloUtenteEsistente(id);
 	}
-
 
 	@Override
 	public Utente recuperaQr(int id) {
@@ -82,22 +58,17 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	}
 	
 	@Override
-	public boolean aggiornaUtente(int id,String mail)
-	{
+	public boolean aggiornaUtente(int id,String mail){
 		return or.aggiornaUtente(id,mail);
 	}
 	
 	@Override
-	public boolean cancellaUtente(int id)
-	{
+	public boolean cancellaUtente(int id){
 		return or. cancellaUtente(id);
 	}
 
-
-
 	@Override
 	public Utente creaUtenteGoogleApi(Utente u) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
