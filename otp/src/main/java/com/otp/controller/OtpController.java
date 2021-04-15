@@ -35,20 +35,28 @@ public class OtpController {
 	
 	//INSERIMENTO UTENTE
 	@PostMapping("/user/{id}/{mail}")
-	public ResponseEntity<String> inserimentoUtente(@PathVariable int id,@PathVariable String mail ) throws Exception {
+	public ResponseEntity<String> inserimentoUtente(@PathVariable int id,@PathVariable String mail ){
 		Utente u = new Utente();
 		String messaggio = null;
 		u.setId_utente(id);
 		u.setMail(mail);
-		Utente utente = osi.creaUtente(u);
-		if(utente!=null)
+		int checkutente = osi.creaUtente(u);
+		switch(checkutente)
 		{
+		
+		
+		case 1:
+		
 			messaggio = "esito : INSERITO";
 			return new ResponseEntity<>(messaggio,HttpStatus.CREATED);
-		}
-		else 
-		{
+		
+		case 0: 
+		
 			messaggio = "esito : NON INSERITO";
+			return new ResponseEntity<>(messaggio,HttpStatus.OK);
+			
+		default:
+			messaggio = "esito : ERRORE";
 			return new ResponseEntity<>(messaggio,HttpStatus.OK);
 		}
 		
@@ -129,7 +137,7 @@ public class OtpController {
 	
 	//VERIFICA OTP PER L'ACCESSO ----------OK
 	@GetMapping("/user/{id}/otp/{otp}")
-	public ResponseEntity<String> verificaOTP(@PathVariable int id, @PathVariable String otp) throws Exception 
+	public ResponseEntity<String> verificaOTP(@PathVariable int id, @PathVariable String otp)
 	{
 		int check = osi.login(id,otp);
 		String messaggio = null;

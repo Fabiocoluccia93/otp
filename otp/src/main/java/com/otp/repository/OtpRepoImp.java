@@ -1,5 +1,9 @@
 package com.otp.repository;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -20,31 +24,32 @@ public class OtpRepoImp implements OtpRepository {
 
 	@Override
 	@Transactional
-	public Utente creaUtente(Utente u) {
+	public int creaUtente(Utente u) {
 		
 		Utente creato = null;
-		
+		int check = 0;
 		try {
 			creato = em.find(Utente.class, u.getId_utente());
 			if(creato == null)
 			{
 				em.persist(u);
+				check=1;
 			}
-			else	
+			else
 			{
-				u=null;
+				check=0;
 			}
-		} catch (NoResultException e) 
+		} catch (NoResultException  e) 
 		{
-			u=null;
+			check=0;
 		}
-		return u;
+		return check;
 	}
 
 	
 	@Transactional
 	@Override
-	public int login(int id, String otp)  throws Exception
+	public int login(int id, String otp)
 	{
 		int check = 0;
 		try 
@@ -69,6 +74,11 @@ public class OtpRepoImp implements OtpRepository {
 		catch (NullPointerException e) 
 		{
 			check=1;// 
+		}
+		catch (InvalidKeyException | IllegalArgumentException | NoSuchAlgorithmException | IOException e)
+		{
+			e.printStackTrace();
+			check=0;
 		}
 		return check;
 	}

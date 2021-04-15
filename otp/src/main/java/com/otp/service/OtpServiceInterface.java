@@ -4,9 +4,9 @@ import com.otp.model.Utente;
 
 public interface OtpServiceInterface {
 
-	public Utente creaUtente(Utente u) throws Exception;
+	public int creaUtente(Utente u);
 
-	public int login(int id ,String otp) throws Exception;
+	public int login(int id ,String otp);
 	
 	public boolean controlloUtenteEsistente(int id);
 	
