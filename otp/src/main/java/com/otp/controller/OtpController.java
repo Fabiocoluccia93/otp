@@ -52,7 +52,12 @@ public class OtpController {
 		
 		case 0: 
 		
-			messaggio = "esito : NON INSERITO";
+			messaggio = "esito : ID GIA' INSERITO";
+			return new ResponseEntity<>(messaggio,HttpStatus.OK);
+		
+		case 2:
+			
+			messaggio = "esito : MAIL GIA' INSERITA";
 			return new ResponseEntity<>(messaggio,HttpStatus.OK);
 			
 		default:
@@ -89,9 +94,9 @@ public class OtpController {
 	//AGGIORNA UTENTE
 	@PutMapping("/user/{id}/{mail}")
 	public ResponseEntity<Void> aggiornamentoUtente(@PathVariable int id, @PathVariable String mail){
-		boolean c;
+		int c;
 		c=osi.aggiornaUtente(id,mail);
-		if(c)
+		if(c==1)
 		{
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
@@ -126,6 +131,9 @@ public class OtpController {
 		{			
 			codici.setUrlqr(recuperato.getUrlqr());
 			codici.setQrCode(recuperato.getQrCode());
+			codici.setSecret(recuperato.getSecret());
+			codici.setIssuer("ARIAOTP");
+			codici.setMail(recuperato.getMail());
 			return new ResponseEntity<>(codici, HttpStatus.OK);
 		}
 		else

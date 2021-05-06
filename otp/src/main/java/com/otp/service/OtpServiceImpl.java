@@ -32,7 +32,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 			String hexTime = OTP.timeInHex(System.currentTimeMillis());
 			String code = OTP.create(secret, hexTime, 6, Type.TOTP);
 			u.setHex_id(code);
-			String url = OTP.getURL(secret, 6, Type.TOTP, "Example", u.getMail());
+			String url = OTP.getURL(secret, 6, Type.TOTP, "ARIAOTP", u.getMail());
 			u.setUrlqr(url);
 			u.setSecret(secret);
 			QRCodeWriter writer = new QRCodeWriter();
@@ -47,11 +47,14 @@ public class OtpServiceImpl implements OtpServiceInterface {
 		} 
 		catch (IOException | InvalidKeyException | IllegalArgumentException | NoSuchAlgorithmException| WriterException e)	{
 			e.printStackTrace();
-			return 2;
+			return 3;
 		}
 		
 		
 	}
+		
+		
+
 	
 	
 
@@ -72,7 +75,7 @@ public class OtpServiceImpl implements OtpServiceInterface {
 	}
 	
 	@Override
-	public boolean aggiornaUtente(int id,String mail){
+	public int aggiornaUtente(int id,String mail){
 		return or.aggiornaUtente(id,mail);
 	}
 	

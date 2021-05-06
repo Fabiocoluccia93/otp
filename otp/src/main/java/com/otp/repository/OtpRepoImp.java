@@ -25,9 +25,27 @@ public class OtpRepoImp implements OtpRepository {
 	@Override
 	@Transactional
 	public int creaUtente(Utente u) {
-		
-		Utente creato = null;
 		int check = 0;
+		Utente checkutente=null;
+		try
+		{
+			Query q = em.createQuery("SELECT u FROM Utente u WHERE u.mail =:mail").setParameter("mail", u.getMail());
+			checkutente =(Utente)q.getSingleResult();
+		}
+		catch(NoResultException e)
+		{
+			checkutente=null;
+		}
+		
+		if(checkutente!=null)
+		{
+			check=2;
+		}
+		else
+		{
+			
+		Utente creato = null;
+		
 		try {
 			creato = em.find(Utente.class, u.getId_utente());
 			if(creato == null)
@@ -42,6 +60,7 @@ public class OtpRepoImp implements OtpRepository {
 		} catch (NoResultException  e) 
 		{
 			check=0;
+		}
 		}
 		return check;
 	}
@@ -64,8 +83,16 @@ public class OtpRepoImp implements OtpRepository {
 			q.setParameter("id", id);
 			q.setParameter("otp", otp);
 			
+			Utente checkutente = (Utente) q.getSingleResult();
+					if(checkutente!=null)
+					{
+						check=3;//utente esiste
+					}
+					else
+					{
+						check=2;
+					}
 			
-			check=3;//utente esiste
 			
 		} catch (NoResultException e) 
 		{
@@ -131,21 +158,39 @@ public class OtpRepoImp implements OtpRepository {
 	
 	@Transactional
 	@Override
-	public boolean aggiornaUtente(int id,String mail)
+	public int aggiornaUtente(int id,String mail)
 	{
-		boolean c=false;
-		try {
-			Utente a = em.find(Utente.class, id);
-			if(a!=null)
-			{
-				a.setMail(mail);
-				em.merge(a);
-				c=true;				
-			}
-		} catch (NoResultException e) {
-			c=false;
+		int check=0;
+		Utente checkutente=null;
+		try
+		{
+			Query q = em.createQuery("SELECT u FROM Utente u WHERE u.mail =:mail").setParameter("mail", mail);
+			checkutente =(Utente)q.getSingleResult();
 		}
-		return c;
+		catch(NoResultException e)
+		{
+			checkutente=null;
+		}
+		
+		if(checkutente!=null)
+		{
+			try {
+				Utente a = em.find(Utente.class, id);
+				if(a!=null)
+				{
+					a.setMail(mail);
+					em.merge(a);
+					check=1; //ok;				
+				}
+			} catch (NoResultException e) {
+				check=2; // non ce id utente;
+			}
+		}
+		else
+		{
+			check=2; //mail gia utilizzata
+		}		
+		return check;
 	}
 	
 	

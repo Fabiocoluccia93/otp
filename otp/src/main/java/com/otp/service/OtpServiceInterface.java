@@ -12,7 +12,7 @@ public interface OtpServiceInterface {
 	
 	public Utente recuperaQr(int id);
 	
-	public boolean aggiornaUtente(int id,String mail);
+	public int aggiornaUtente(int id,String mail);
 	
 	public boolean cancellaUtente(int id);
 	
